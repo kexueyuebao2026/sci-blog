@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ .Title }}</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+}
+body {
+  background: url("/images/bg.jpg") center / cover no-repeat fixed;
+  min-height: 100vh;
+}
+/* 外层弹性容器 */
+.wrap {
+  display: flex;
+  max-width: 1280px;
+  margin: 3rem auto;
+  gap: 2rem;
+  padding: 0 1rem;
+  align-items: flex-start;
+}
+/* 左侧文章区 */
+.left-main {
+  flex: 3;
+  min-width: 0;
+}
+/* 右侧通知栏：强制最小宽度，提高层级 */
+.right-notice {
+  flex: 0 0 280px;
+  min-width:280px;
+  background-color: #edf4fc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+.right-notice h3 {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ccdcec;
+  margin-bottom:12px;
+}
+.notice-item {
+  padding: 10px 0;
+  border-bottom: 1px dashed #d8e6f3;
+}
+.notice-item:last-child {
+  border-bottom: none;
+}
+.article-card {
+  background: rgba(255,255,255,0.88);
+  padding:16px;
+  border-radius:8px;
+  margin-bottom:16px;
+}
+.article-card h3 a {
+  color:#111;
+  text-decoration:none;
+}
+.tag-link, .cat-link {
+  display: inline-block;
+  background: #edf4fc;
+  padding: 2px 7px;
+  border-radius:4px;
+  margin: 2px;
+  text-decoration: none;
+  color:#222;
+  font-size:0.9em;
+}
+/* 移动端：直接上下排布 */
+@media (max-width:820px) {
+  .wrap {
+    flex-direction: column;
+  }
+  .right-notice {
+    width:100%;
+    flex:none;
+  }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="left-main">
+    <h2>文章列表</h2>
+    {{ range where .Site.RegularPages "Section" "posts" }}
+    <div class="article-card">
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <p>日期：{{ .Date.Format "2006-01-02" }}</p>
+      <p>
+        标签：
+        {{ range (.GetTerms "tags") }}
+          <a class="tag-link" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        {{ end }}
+      </p>
+      <p>
+        分类：
+        {{ range (.GetTerms "categories") }}
+          <a class="cat-link" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        {{ end }}
+      </p>
+    </div>
+    {{ end }}
+  </div>
+
+  <!-- 右侧淡蓝色通知栏 -->
+  <div class="right-notice">
+    <h3>📢 通知</h3>
+    <div class="notice-item">
+      <p>博客搭建完成，持续更新技术笔记</p>
+    </div>
+    <div class="notice-item">
+      <p>支持标签、分类归档</p>
+    </div>
+    <div class="notice-item">
+      <p>本地预览：http://localhost:1313</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ .Title }}</title>
+{{ with resources.Get "css/main.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+<style>
+body {
+  background-color: #edf4fc;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.tag-item {
+  display: inline-block;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin: 6px;
+  text-decoration: none;
+  color: #222;
+}
+</style>
+</head>
+<body>
+<h1>{{ .Title }}</h1>
+<div>
+{{ range .Data.Terms.Alphabetical }}
+<a class="tag-item" href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }} ({{ .Count }})</a>
+{{ end }}
+</div>
+<p style="margin-top:2rem"><a href="/">← 返回首页</a></p>
+</body>
+</html>

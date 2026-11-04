@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>全部标签</title>
+{{ with resources.Get "css/main.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+</head>
+<body>
+<h1>标签列表</h1>
+<ul>
+{{ range .Data.Terms.Alphabetical }}
+<li>
+  <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+  ({{ .Count }})
+</li>
+{{ end }}
+</ul>
+<p><a href="/">← 返回首页</a></p>
+</body>
+</html>

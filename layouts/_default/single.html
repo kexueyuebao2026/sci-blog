@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>{{ .Title }}</title>
+{{ with resources.Get "css/main.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+</head>
+<body>
+<h1>{{ .Title }}</h1>
+<p>
+<small>发布时间：{{ .Date.Format "2006-01-02" }}</small>
+</p>
+<hr>
+{{ .Content }}
+<p><a href="/">← 返回首页</a></p>
+</body>
+</html>

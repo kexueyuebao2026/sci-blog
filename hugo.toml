@@ -1,0 +1,10 @@
+baseURL = "https://example.org/"
+locale = "zh-cn"
+title = "苛学月报"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[markup.goldmark.renderer]
+unsafe = true
