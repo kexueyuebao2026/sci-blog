@@ -1,0 +1,23 @@
+name: Build Hugo and Deploy Pages
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.169.0'
+          extended: true
+      - name: Build
+        run: hugo --gc --minify
+      - name: Deploy
+        uses: gitee-pages/actions@main
+        with:
+          branch: gh-pages
