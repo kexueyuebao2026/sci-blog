@@ -1,0 +1,17 @@
+<div style="margin:1rem 0; display:flex; gap:8px; align-items:center;">
+  <input id="tagInput" type="text" placeholder="输入标签，回车跳转"
+  style="padding:6px 10px; flex:1; border:1px solid #ccc; border-radius:6px;">
+  <button onclick="goTag()" style="padding:6px 14px; cursor:pointer;">搜索标签</button>
+</div>
+<script>
+function goTag(){
+  let tag = document.getElementById("tagInput").value.trim();
+  if(!tag) return;
+  // 直接URL编码，适配中文标签原生路径
+  let tagUrl = encodeURIComponent(tag);
+  location.href = "{{ .Site.BaseURL }}tags/" + tagUrl + "/";
+}
+document.getElementById("tagInput").addEventListener("keydown",function(e){
+  if(e.key === "Enter") goTag();
+})
+</script>

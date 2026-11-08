@@ -14,11 +14,32 @@ body {
   background: url("/images/bg.jpg") center / cover no-repeat fixed;
   min-height: 100vh;
 }
+/* 顶部横幅 */
+.banner {
+  background: url("/images/banner.jpg") center / cover no-repeat;
+  padding: 4rem 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.banner h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: #000;
+  margin-bottom: 1rem;
+}
+.banner-nav a {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color:#550088;
+  text-decoration: underline;
+  margin:0 12px;
+}
+.banner-nav a:hover {
+  color:#8822bb;
+}
 /* 外层弹性容器 */
 .wrap {
   display: flex;
   max-width: 1280px;
-  margin: 3rem auto;
+  margin: 0 auto 3rem;
   gap: 2rem;
   padding: 0 1rem;
   align-items: flex-start;
@@ -28,7 +49,31 @@ body {
   flex: 3;
   min-width: 0;
 }
-/* 右侧通知栏：强制最小宽度，提高层级 */
+/* 【文章列表】标题 + 搜索框 同行容器 */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom:16px;
+  gap:12px;
+}
+.tag-search-box {
+  display:flex;
+  gap:6px;
+}
+.tag-search-box input {
+  padding:6px 10px;
+  border:1px solid #ccdcec;
+  border-radius:6px;
+}
+.tag-search-box button {
+  padding:6px 12px;
+  background:#edf4fc;
+  border:1px solid #ccdcec;
+  border-radius:6px;
+  cursor:pointer;
+}
+/* 右侧通知栏 */
 .right-notice {
   flex: 0 0 280px;
   min-width:280px;
@@ -55,10 +100,21 @@ body {
   padding:16px;
   border-radius:8px;
   margin-bottom:16px;
+  transition: all 0.25s ease;
+  transform: translateY(0);
+}
+.article-card:hover {
+  background: rgba(255,255,255,0.96);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.14);
 }
 .article-card h3 a {
   color:#111;
   text-decoration:none;
+}
+.article-card h3 a:hover {
+  color:#2b67a8;
+  text-decoration: underline;
 }
 .tag-link, .cat-link {
   display: inline-block;
@@ -69,8 +125,12 @@ body {
   text-decoration: none;
   color:#222;
   font-size:0.9em;
+  transition: 0.15s;
 }
-/* 移动端：直接上下排布 */
+.tag-link:hover, .cat-link:hover {
+  background:#d8e6f3;
+}
+/* 移动端适配 */
 @media (max-width:820px) {
   .wrap {
     flex-direction: column;
@@ -79,13 +139,46 @@ body {
     width:100%;
     flex:none;
   }
+  .header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tag-search-box {
+    width:100%;
+  }
+  .tag-search-box input {
+    flex:1;
+  }
+  .banner h1 {
+    font-size: 3rem;
+  }
+  .banner-nav a {
+    font-size:1.6rem;
+  }
 }
 </style>
 </head>
 <body>
+<!-- 顶部横幅（苛学月报 + 全部标签、全部分类链接） -->
+<div class="banner">
+  <h1>苛学月报</h1>
+  <div class="banner-nav">
+    <a href="{{ .Site.BaseURL }}tags/"> 全部标签</a>
+    <a href="{{ .Site.BaseURL }}categories/"> 全部分类</a>
+  </div>
+</div>
+
 <div class="wrap">
   <div class="left-main">
-    <h2>文章列表</h2>
+    <!-- ========== 这里：文章列表标题 和 搜索框同行 ========== -->
+    <div class="header-row">
+      <h2>文章列表</h2>
+      <div class="tag-search-box">
+        <input id="tagInput" type="text" placeholder="输入标签搜索">
+        <button onclick="goTag()">搜索</button>
+      </div>
+    </div>
+    <!-- 文章循环卡片 -->
     {{ range where .Site.RegularPages "Section" "posts" }}
     <div class="article-card">
       <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
@@ -106,19 +199,31 @@ body {
     {{ end }}
   </div>
 
-  <!-- 右侧淡蓝色通知栏 -->
+  <!-- 右侧通知栏 -->
   <div class="right-notice">
     <h3>📢 通知</h3>
     <div class="notice-item">
-      <p>博客搭建完成，持续更新技术笔记</p>
+      <p>网站搭建完成，持续更新新鲜文章</p>
     </div>
     <div class="notice-item">
-      <p>支持标签、分类归档</p>
+      <p>某个高中生的突发奇想</p>
     </div>
     <div class="notice-item">
-      <p>本地预览：http://localhost:1313</p>
+      <p>不知所云</p>
     </div>
   </div>
 </div>
+
+<script>
+function goTag(){
+  let tag = document.getElementById("tagInput").value.trim();
+  if(!tag) return;
+  let tagUrl = encodeURIComponent(tag);
+  location.href = "{{ .Site.BaseURL }}tags/" + tagUrl + "/";
+}
+document.getElementById("tagInput").addEventListener("keydown",function(e){
+  if(e.key === "Enter") goTag();
+})
+</script>
 </body>
 </html>
