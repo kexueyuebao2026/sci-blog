@@ -13,3 +13,7 @@ unsafe = true
   defaultImageConfig = "webp q85"
   resampleFilter = "Lanczos"
   anchor = "smart"
+
+# 强制首页使用home模板，是关键新增
+[outputs]
+home = ["HTML"]
