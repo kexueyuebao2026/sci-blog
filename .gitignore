@@ -1,5 +1,8 @@
-﻿public/
+﻿posts-backup/
+*.zip
+*.7z
+public/
 resources/
+.vscode/
+Thumbs.db
 .DS_Store
-*.log
-themes/
