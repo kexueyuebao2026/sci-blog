@@ -8,3 +8,8 @@ title = "苛学月报"
 
 [markup.goldmark.renderer]
 unsafe = true
+
+[imaging]
+  defaultImageConfig = "webp q85"
+  resampleFilter = "Lanczos"
+  anchor = "smart"

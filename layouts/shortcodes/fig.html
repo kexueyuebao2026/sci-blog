@@ -1,0 +1,33 @@
+{{ $img := .Get "src" }}
+{{ $alt := .Get "alt" | default "图" }}
+{{ $cap := .Get "caption" | default "" }}
+{{ $width := .Get "width" | default "800" }}
+{{ $original := .Page.Resources.GetMatch $img }}
+
+{{ if $original }}
+  {{ $thumb := $original.Resize (printf "%sx webp q85" $width) }}
+  {{ $full := $original }}
+
+  <figure style="margin:1.5rem 0; text-align:center;">
+    <a href="{{ $full.RelPermalink }}" target="_blank" rel="noopener noreferrer">
+      <img 
+        src="{{ $thumb.RelPermalink }}"
+        alt="{{ $alt }}"
+        loading="lazy"
+        style="max-width:100%; border-radius:4px;"
+      >
+    </a>
+    {{ if $cap }}
+    <figcaption style="margin-top:0.5rem; color:#555; font-size:0.9rem;">
+      {{ $cap }}
+    </figcaption>
+    {{ end }}
+  </figure>
+{{ else }}
+  <figure style="margin:1.5rem 0; text-align:center;">
+    <a href="{{ $img }}" target="_blank">
+      <img src="{{ $img }}" alt="{{ $alt }}" loading="lazy" style="max-width:100%;">
+    </a>
+    {{ if $cap }}<figcaption style="margin-top:0.5rem; color:#555; font-size:0.9rem;">{{ $cap }}</figcaption>{{ end }}
+  </figure>
+{{ end }}
